@@ -1,8 +1,8 @@
 function view_stl(filename)
     try
-        [F, V] = read_stl_ascii(filename);  % <- use custom ASCII loader
+        [F, V] = read_stl_ascii(filename); 
         if isempty(F) || isempty(V)
-            warning('STL file is empty or invalid. Skipping STL plot.');
+            warning('STL file is empty or invalid. Skipping the STL plot.');
             return;
         end
         patch('Faces', F, 'Vertices', V, ...
