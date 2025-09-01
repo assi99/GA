@@ -26,7 +26,7 @@ prop2_list = [
 ];
 prop_positions = {prop1_list, prop2_list};
 
-% Precompute fitness for all valid combinations
+% Compute fitness for all valid combinations
 scores = zeros(2, 10);
 global idx_log
 idx_log = {};
@@ -49,7 +49,7 @@ p2 = prop2_list(best_idx(2), :);
 p3 = [p2(1), -p2(2)];
 prop_coords = [p1; p2; p3];
 
-fprintf('\n✅ Best Configuration (Ultra Fitness):\n');
+fprintf('\n Best Configuration (Ultra Fitness):\n');
 fprintf('P1: (%.2f, %.2f)\n', p1(1), p1(2));
 fprintf('P2: (%.2f, %.2f)\n', p2(1), p2(2));
 fprintf('P3: (%.2f, %.2f)\n', p3(1), p3(2));
