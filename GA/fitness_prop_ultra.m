@@ -7,7 +7,7 @@ function score = fitness_prop_ultra(idx, prop_positions, cog)
     P3 = [P2(1), -P2(2)];
     COG = cog(1:2);
 
-    % Geometry and basic structure
+    % Geometry and structure
     d_total = norm(P1 - COG) + norm(P2 - COG) + norm(P3 - COG);
     symmetry_penalty = abs(P2(1) - P3(1)) + abs(P2(2) + P3(2));
     spacing = [norm(P1 - P2), norm(P1 - P3), norm(P2 - P3)];
@@ -15,7 +15,7 @@ function score = fitness_prop_ultra(idx, prop_positions, cog)
     tri_std = std(spacing);
     area = polyarea([P1(1), P2(1), P3(1)], [P1(2), P2(2), P3(2)]);
 
-    % COG & centroid alignment
+    % COG and centroid alignment
     centroid = mean([P1; P2; P3]);
     cog_centroid_offset = norm(centroid - COG);
 
@@ -27,19 +27,19 @@ function score = fitness_prop_ultra(idx, prop_positions, cog)
     torque_magnitude = norm(tq_sum);
     moment_1D = (P1(1) - COG(1)) - (P2(1) - COG(1)) + (P3(1) - COG(1));
 
-    % Inertia estimates
+    % Inertia approximations
     Ix = sum([(P1(2)-COG(2))^2, (P2(2)-COG(2))^2, (P3(2)-COG(2))^2]);
     Iy = sum([(P1(1)-COG(1))^2, (P2(1)-COG(1))^2, (P3(1)-COG(1))^2]);
     inertia_penalty = abs(Ix - Iy) + 0.05*(Ix + Iy);
 
-    % Arm length stats
+    % Arm length
     arm_lengths = vecnorm([P1; P2; P3] - COG, 2, 2);
     longest_arm = max(arm_lengths);
 
-    % Control authority proxy
+    % Control proxy
     ctrl_efficiency = area / (Ix + Iy + 1e-6);
 
-    % Y skew of P1 vs others
+    % Y skew of P1 VS others
     skew_penalty = std([P1(2), P2(2), P3(2)]);
 
     % Yaw torque alignment
@@ -48,7 +48,7 @@ function score = fitness_prop_ultra(idx, prop_positions, cog)
     % Drag risk (X-spread from COG)
     drag_risk_x_spread = std([P1(1), P2(1), P3(1)]);
 
-    % Overlap risk (simple heuristic: props too close)
+    % Propellers are too close
     min_spacing = min(spacing);
     overlap_penalty = max(0, 0.3 - min_spacing);  % penalize if props are closer than 0.3m
 
